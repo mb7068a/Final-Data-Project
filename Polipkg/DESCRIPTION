@@ -1,7 +1,7 @@
 Package: Polipkg
 Type: Package
 Title: What the Package Does (Title Case)
-Version: 0.1.03
+Version: 0.1.04
 Author: Matthew Brown
 Maintainer: Matthew Brown <mb7068a@student.american.edu>
 Description: More about what it does (maybe more than one line)
