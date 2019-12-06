@@ -56,7 +56,7 @@ server <- function(input, output, session) {
     CBF<-input$CBF
     NPVI<-(2*((NPV*.01)-.5))
     PRPVI<-ifelse(Party==1,(a-NPVI),NPVI-a)
-    yp<-read.csv("https://raw.github.com/mb7068a/Final-Data-Project/master/Tables/yp.csv", sep="\t")
+    yp<-read.csv("https://raw.github.com/mb7068a/Final-Data-Project/master/Tables/ypv2.csv", sep="\t")
     a<-yp%>%dplyr::filter(year==LE)
     a<-a[-c(1,3,4)]
     paste(a)
