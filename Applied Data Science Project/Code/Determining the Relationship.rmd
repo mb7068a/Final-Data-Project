@@ -1,0 +1,22 @@
+---
+title: "Quantifying the Relationship Between Spending and Electoral Performance"
+output: pdf_document
+---
+PVI Model
+```{r}
+ggplot(Senate5, aes(spending_factor, PVI_performance)) +
+  geom_point(aes(color=party)) +
+  geom_smooth()
+```
+```{r}
+ggplot(Senate5, aes(spending_factor, history_performance)) +
+  geom_point(aes(color=party)) +
+  geom_smooth()
+```
+```{r}
+lm(Senate5$history_performance ~ Senate5$spending_factor)
+
+```
+
+margin=0.0376+0.1504(fundraising/opponent's fundraising)+previous margin
+
