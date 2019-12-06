@@ -73,10 +73,10 @@ yp12<-full_join(yp86, yp11)
 yp<-full_join(yp84, yp12)
 ypp<-yp%>%
   mutate(year=year+6)%>%
-  mutate(YPPVI=0.1*(DemVotesMajorPercentAll-RepVotesMajorPercentAll))
+  mutate(YPPVI=0.01*(DemVotesMajorPercentAll-RepVotesMajorPercentAll))
 ypp<-ypp[ -c(1:2)]
 yp<-yp%>%
-  mutate(YPVI=0.1*(DemVotesMajorPercentAll-RepVotesMajorPercentAll))
+  mutate(YPVI=0.01*(DemVotesMajorPercentAll-RepVotesMajorPercentAll))
   
 yp<-yp[ -c(1:2)]
 yp<-full_join(yp, ypp)

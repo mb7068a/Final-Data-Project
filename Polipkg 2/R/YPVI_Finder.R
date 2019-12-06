@@ -16,8 +16,7 @@
 #'
 
 YPVI_Finder <- function(x){
-  yp<-read.csv("https://raw.github.com/mb7068a/Final-Data-Project/master/Tables/yp.csv", sep="\t")
-  a<-yp%>%dplyr::filter(year==x)
-  a<-a[-c(1,3,4)]
+  yp<-read.csv("data/yp.csv", sep="\t")
+  a<-yp%>%dplyr::filter(YPVI,year==x)
   return(a)
 }
