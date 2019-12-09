@@ -5,20 +5,22 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+require(dplyr)
+Senate7<-read.csv("https://raw.github.com/mb7068a/Final-Data-Project/master/Tables/Senate7.csv", sep="\t")
 ```
 
 ##Multiple Regression Model: Fundraising vs. Performance
+The initial multiple repression model compared the dependent variable (the margin of victory or loss in an election) to the dependent variable (the share of spending) and a control variable (the margin received in the previous election). This model demonstrates that there is a statistically significant relationship between the dependent variable and both the independent variable and the control variable.
 
-```{r cars}
-summary(cars)
+```{r Model 1}
+f1<<-lm(Senate7$RPVI ~ Senate7$share_of_spent + Senate7$Previous_RPVI)
+summary(f1)
+coef(f1)
 ```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+##Multiple Regression Model: Fundraising vs. Performance vs. National Political Climate
+In order to reduce the residuals and produce a more predictive model, a second multiple repression model which was tested comparing the dependent variable to the independent variable and two control variables (the margin received in the previous election and the shift in the congressional popular vote between the previous election and the one being analyzed). This model demonstrated that there is statistical significance between the shift in national congressional popular vote and the margin of victory or loss. The median residual decreased by 17% and the maximum and minimum residuals both decreased in magnitude.
+```{r Model 2}
+f2<<-lm(Senate7$RPVI ~ Senate7$share_of_spent + Senate7$Previous_RPVI + Senate7$YPVI2)
+summary(f2)
+coef(f2)
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
