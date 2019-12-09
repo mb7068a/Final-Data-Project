@@ -1,5 +1,6 @@
 ---
 title: "Procedure"
+author: "Matthew Brown"
 output: pdf_document
 ---
 ```{r setup1, include=FALSE}
@@ -13,9 +14,9 @@ require("tidyverse")
 require("janitor")
 knitr::opts_knit$set(root.dir = "~/Documents/GitHub/Final-Data-Project/Applied Data Science Project")
 ```
-
+## Importing Data
 Data was collected from three sources: The Federal Election Commission, MIT Election Lab, and CQ Voting and Elections Center. The data from the MIT Election lab, which contained the results of all of the senate races from 1976 to 2018, was filtered down to include only regular general elections. Write in candidates were removed. The state_po column was renamed to match the FEC and unnecessary columns were removed.
-```{r MIT Data Import}
+```{r MIT Data Import, echo=TRUE, results='hide'}
 RS <<- read.csv("./Data/Results/1976-2018-senate.csv")
 RS <<- RS%>% filter(candidate!="") %>%
   filter(special=="FALSE") %>%
@@ -28,8 +29,8 @@ RS <<- RS[ -c(2)]
 RS <<- RS[,c(1,7,3,2,4,5,6)]
 ```
 
-FEC Data was then imported. A function was created to replace state names with abbreviations in order to match this data with MIT data. 
-```{r FEC Data Wrangling 1}
+FEC Data was imported for all elections from 1990 to 2010.
+```{r FEC Data Wrangling 1, echo=TRUE, results='hide', warning=FALSE}
 # Import FEC Data
 F90S <<- readxl::read_xlsx("./Data/Fundraising/1990_Senate.xlsx", skip=3)
 F92S <<- readxl::read_xlsx("./Data/Fundraising/1992_Senate.xlsx", skip=3)
@@ -42,6 +43,10 @@ F04S <<- readxl::read_xlsx("./Data/Fundraising/2004_Senate.xlsx", skip=3)
 F06S <<- readxl::read_xlsx("./Data/Fundraising/2006_Senate.xlsx", skip=3)
 F08S <<- readxl::read_xlsx("./Data/Fundraising/2008_Senate.xlsx", skip=3)
 F10S <<- readxl::read_xlsx("./Data/Fundraising/2010_Senate.xlsx", skip=3)
+```
+## Data cleaning
+State names were replaced with abbreviations in order to more easily match this data with MIT data. 
+```{r, echo=TRUE, results='hide', warning=FALSE}
 # Correct Row Names
 janitor::row_to_names(F90S,1, remove_row = TRUE)
 janitor::row_to_names(F92S,1, remove_row = TRUE)
@@ -68,7 +73,7 @@ F08S <<- F08S %>%mutate(state=state.abb[match(F08S$State,state.name)])
 F10S <<- F10S %>%mutate(state=state.abb[match(F10S$State,state.name)])
 ```
 Since FEC Data for senate races is grouped in two year cycles, candidates, particularly incumbents, often have multiple fundraising rows on the table. New tables were created from the FEC data and grouped by candidate. The fundraising totals for each candidate in each six year cycle were calculated, and the tables were re-joined. The fundraising tables for each cycle were subsequently combined.
-```{r FEC Candidate Totals}
+```{r FEC Candidate Totals, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
 # Create new Tables grouped by candidate
 C90S <<- F90S %>%group_by(Candidate)
 C92S <<- F92S %>%group_by(Candidate)
@@ -185,7 +190,7 @@ FS9<<-full_join(FS8,F08S)
 FS<<-full_join(FS9,F10S)
 ```
 One of the biggest challenges associated with FEC data is the lack of standardized candidate names. In order to correct this, the Candidate names were then divided into first and last names. This will simplify the process of joining these tables with the MIT results Data.
-```{r FEC Candidate Names}
+```{r FEC Candidate Names, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
 # Standardizing candidate names -------------------------------------------------------------------
 FS <<- FS%>%mutate(last_name=Candidate)
 FS <<- FS%>%mutate(first_name=Candidate)
@@ -202,7 +207,7 @@ FS <<- FS[,c(3,6,4,9,5,1,2,8,7)]
 FSN<<-FS
 ```
 The FEC Data also contained party names which were inconsistent with those in the MIT results tables. Certain states, such as minnesota, have state parties with slightly different names than the national parties with which they are affiliated. This was corrected to simplify the process of joining these tables with the MIT results Data.
-```{r FEC Party Names}
+```{r FEC Party Names, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
 # Standardizing Party Names ------------------------------------------------
 FS <<- FS %>%
   mutate(Party=sub(" Party", '', FS$Party))%>%
@@ -218,7 +223,7 @@ FS <<- distinct(FS)
 FS <<- FS[,c(1,2,3,9,5,6,7,8)]
 ```
 The MIT Data also needed work before it could be joined with the FEC Data. First, candidates who belonged to third parties or to no party were removed. The time frame was narrowed to the period between 1990-2010. A new column was created with each candidate's share of the vote. Candidates who recieved less than ten percent, or greater than ninety percent of the vote were removed as these races are particularly non-competative and could produce outliers which artificially skew the data. As with FEC data, new columns were made with the candidates' last names. Finally, states with jungle primaries were removed, as these states can have elections in which both candidates belong to the same party. Analyzing such elections would require intensive research in order to determine the ideological factors at play, as well as the development of new methods to quantify said factors.
-```{r MIT Wrangling}
+```{r MIT Wrangling, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
 # Results Name Matching ---------------------------------------------------
 RS <<- distinct(RS)
 RSALL<<-RS
@@ -252,7 +257,7 @@ Senate1<<-left_join(RSNJ,FS)
 Senate1<<-distinct(Senate1)
 ```
 In order to get a better idea of a candidate's performance, the previous election results are calculated. 
-```{r Previous Election Data}
+```{r Previous Election Data, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
 # Add Pervious Election Data ----------------------------------------------
 RSREF<<-full_join(RSR,RSD)
 RSREF<<-RSREF%>%mutate(previous_percentage=candidatevotes/totalvotes)
@@ -274,7 +279,7 @@ Senate3<<-unique(Senate3)
 Senate3<<-Senate3[ -c(6,13)]
 ```
 Some duplicate data was created when the results and fundraising data was joined. The fundraising totals were re-calculated to ensure that no duplicate data remains.
-```{r Checking for Duplicates}
+```{r Checking for Duplicates, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
 # Re-divide fundraising into years ---------------------------------------
 R90S<<-Senate3%>%filter(year==1990)
 R92S<<-Senate3%>%filter(year==1992)
@@ -415,7 +420,7 @@ R08S<<-unique(R08S)
 R10S<<-unique(R10S)
 ```
 The fundraising totals from each state are calculated and the candidate's share of the spending was calculated from these totals.
-```{r State Totals}
+```{r State Totals, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
 # Get totals for each state -----------------------------------------------
 #Create new tibbles for each year
 S90S<<-R90S
@@ -511,7 +516,7 @@ R08S<<-left_join(R08S,S08S)
 R10S<<-left_join(R10S,S10S)
 ```
 The data was filtered again to include only races in which a Democrat and a Republican are running. This will ensure that candidates running without a major party opponent do not skew the data. The table was exported.
-```{r Removing races without two major-party candidates}
+```{r Removing races without two major-party candidates, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
 # Two candidates only -----------------------------------------------------
 #Create new tibbles to count number of candidates in each state
 CN90S<<-R90S%>% count(state)
@@ -578,7 +583,7 @@ Senate4 <<- Senate4%>%mutate(share_of_spent=spent/total_spent)
 write.table(Senate4, "~/Documents/GitHub/Final-Data-Project/Tables/Senate.csv", sep="\t")
 ```
 The years were changed to not include the 2010. The rise of citizens united made it much more challenging to accurately depict fundraising based on what a candidate raises.
-```{r removing the 2010 cycle}
+```{r removing the 2010 cycle, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
 library("tidyverse")
 Senate5<<- read.csv("~/Documents/GitHub/Final-Data-Project/Tables/Senate.csv", sep="\t")
 Senate5<<-Senate5%>%
@@ -588,25 +593,25 @@ write.table(Senate5, "~/Documents/GitHub/Final-Data-Project/Tables/Senate.csv", 
 ```
 
 The national congressional popular vote was imported from CQ election center. A new column was added to the table showing the national popular vote six years prior. This will make it easy to factor in the change in a national political environment over the course of a Senate term.
-```{r}
-yp18 <- read.csv("../Data/export copy 4.csv", skip=55)
-yp16 <- read.csv("../Data/export-2 copy 3.csv", skip=55)
-yp14 <- read.csv("../Data/export-3 copy 3.csv", skip=54)
-yp12 <- read.csv("../Data/export-4 copy.csv", skip=55)
-yp10 <- read.csv("../Data/export.csv", skip=54)
-yp08 <- read.csv("../Data/export-2.csv", skip=54)
-yp06 <- read.csv("../Data/export-3.csv", skip=56)
-yp04 <- read.csv("../Data/export copy.csv", skip=55)
-yp02 <- read.csv("../Data/export-2 copy.csv", skip=55)
-yp00 <- read.csv("../Data/export-3 copy.csv", skip=54)
-yp98 <- read.csv("../Data/export-4.csv", skip=54)
-yp96 <- read.csv("../Data/export-5.csv", skip=55)
-yp94 <- read.csv("../Data/export-6.csv", skip=54)
-yp92 <- read.csv("../Data/export-7.csv", skip=55)
-yp90 <- read.csv("../Data/export-8.csv", skip=55)
-yp88 <- read.csv("../Data/export copy 3.csv", skip=55)
-yp86 <- read.csv("../Data/export-2 copy 2.csv", skip=55)
-yp84 <- read.csv("../Data/export-3 copy 2.csv", skip=54)
+```{r National Congressional Popular Vote, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
+yp18 <- read.csv("./Data/export copy 4.csv", skip=55)
+yp16 <- read.csv("./Data/export-2 copy 3.csv", skip=55)
+yp14 <- read.csv("./Data/export-3 copy 3.csv", skip=54)
+yp12 <- read.csv("./Data/export-4 copy.csv", skip=55)
+yp10 <- read.csv("./Data/export.csv", skip=54)
+yp08 <- read.csv("./Data/export-2.csv", skip=54)
+yp06 <- read.csv("./Data/export-3.csv", skip=56)
+yp04 <- read.csv("./Data/export copy.csv", skip=55)
+yp02 <- read.csv("./Data/export-2 copy.csv", skip=55)
+yp00 <- read.csv("./Data/export-3 copy.csv", skip=54)
+yp98 <- read.csv("./Data/export-4.csv", skip=54)
+yp96 <- read.csv("./Data/export-5.csv", skip=55)
+yp94 <- read.csv("./Data/export-6.csv", skip=54)
+yp92 <- read.csv("./Data/export-7.csv", skip=55)
+yp90 <- read.csv("./Data/export-8.csv", skip=55)
+yp88 <- read.csv("./Data/export copy 3.csv", skip=55)
+yp86 <- read.csv("./Data/export-2 copy 2.csv", skip=55)
+yp84 <- read.csv("./Data/export-3 copy 2.csv", skip=54)
 #Remove un-necessary columns
 yp18<-yp18[ -c(1:14)]
 yp16<-yp16[ -c(1:14)]
