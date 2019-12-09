@@ -1,7 +1,6 @@
-#'yp
 #'Fundraising_Predictor
 #'
-#'returns the yearly performance table
+#'Calculates the amount of money a candidate must raise in order to be competative.
 #'
 #'Details
 #'@import dplyr
