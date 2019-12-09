@@ -1,5 +1,4 @@
-"year"	"state"	"party"	"last_name"	"candidate"	"candidatevotes"	"totalvotes"	"percentage"	"Incumbent/
-Challenger/Open"	"raised"	"spent"	"previous_percentage"	"Previous_RPVI"	"RPVI"	"total_raised"	"total_spent"	"share_of_spent"	"YPVI"	"YPPVI"	"YPM"	"YPVI2"
+"year"	"state"	"party"	"last_name"	"candidate"	"candidatevotes"	"totalvotes"	"percentage"	"ICO"	"raised"	"spent"	"previous_percentage"	"Previous_RPVI"	"RPVI"	"total_raised"	"total_spent"	"share_of_spent"	"YPVI"	"YPPVI"	"YPM"	"YPVI2"
 "1"	1990	"AL"	"republican"	"CABANISS"	"Bill Cabaniss"	467190	1185154	0.394201934938413	"Challenger"	1870162	1865667	0.363546994896568	-0.272906010206865	-0.211596130123174	5875635	5319650	0.350712358895792	0.0818000000000001	0.0544	0.0274000000000001	-0.0274000000000001
 "2"	1990	"CO"	"republican"	"BROWN"	"Hank Brown"	569048	1022027	0.556783724891808	"Open"	4179746	3723911	0.642483601207882	0.284967202415764	0.113567449783616	6126357	5660825	0.657838919238804	0.0818000000000001	0.0544	0.0274000000000001	-0.0274000000000001
 "3"	1990	"DE"	"republican"	"BRADY"	"M. Jane Brady"	64554	180157	0.358320797970659	"Challenger"	244788	240669	0.398894816453329	-0.202210367093343	-0.283358404058682	NA	NA	NA	0.0818000000000001	0.0544	0.0274000000000001	-0.0274000000000001

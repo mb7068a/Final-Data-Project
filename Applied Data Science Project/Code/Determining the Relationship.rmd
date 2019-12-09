@@ -691,11 +691,11 @@ mutate(YPM=(YPVI-YPPVI))
 
 write.table(yp, "~/Documents/GitHub/Final-Data-Project/Tables/ypv2.csv", sep="\t")
 #The data is then joined to the master table
-Senate7<<-full_join(Senate4,yp)
-Senate7<<-Senate7%>%
+Senate7<-full_join(Senate4,yp)
+Senate7<-Senate7%>%
   mutate(YPVI2=ifelse(party=="republican",YPM*-1,YPM*1))
 #Update incumbency name
-names(Senate7[9])<-"ICO"
+names(Senate7)[9]<-"ICO"
 Senate7<<-Senate7
 write.table(Senate7, "~/Documents/GitHub/Final-Data-Project/Tables/Senate7.csv", sep="\t")
 ```
