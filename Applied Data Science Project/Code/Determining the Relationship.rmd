@@ -697,6 +697,6 @@ Senate7<-Senate7%>%
 #Update incumbency name
 names(Senate7)[9]<-"ICO"
 Senate7<<-Senate7
-write.table(Senate7, "~/Documents/GitHub/Final-Data-Project/Tables/Senate7.csv", sep="\t")
+write.table(Senate7, "~/Documents/GitHub/Final-Data-Project/Tables/Senate7-2.csv", sep="\t")
 ```
 
