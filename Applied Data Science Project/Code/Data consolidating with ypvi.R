@@ -1,4 +1,4 @@
-Senate7<-full_join(Senate5,yp)
+Senate7<-full_join(Senate4,yp)
 Senate7<-Senate7%>%
   mutate(YPVI2=ifelse(party=="republican",YPM*-1,YPM*1))
 
@@ -20,6 +20,7 @@ Senate7%>%
 
 f4<-lm(Senate7$RPVI ~ Senate7$Previous_RPVI + Senate7$share_of_spent + Senate7$YPVI2)
 summary(f4)
+coef(f4)
 #no statistical significance 
 f1
 sd(resid(f4))

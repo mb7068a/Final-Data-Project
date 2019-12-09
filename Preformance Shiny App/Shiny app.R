@@ -1,8 +1,10 @@
 
 library(shiny)
 install.packages(shinyalert)
-install.packages(tidyverse)
+install.packages("tidyverse")
 library(shinyalert)
+library(dplyr)
+yp<-read.csv("https://raw.github.com/mb7068a/Final-Data-Project/master/Tables/ypv2.csv", sep="\t")
 
 # Define UI ----
 ui <- fluidPage(
@@ -38,32 +40,42 @@ ui <- fluidPage(
     mainPanel(
       
       # Output: Verbatim text for data summary ----
-      verbatimTextOutput("value")
+
+      h3(textOutput("Value"))
       
-    )
+    
   )
+)
 )
 
 
 # Define server logic ----
 server <- function(input, output, session) {
   observeEvent(input$submit, {
-    output$value<-renderPrint({
+    output$Value<-renderText({
     LE<-input$LE
     Party<-input$Party
     LER<-input$LER
+    RPVI<-2*(.01*(LER)-.5)
     NPV<-input$NPV
     CBF<-input$CBF
     NPVI<-(2*((NPV*.01)-.5))
-    PRPVI<-ifelse(Party==1,(a-NPVI),NPVI-a)
-    yp<-read.csv("https://raw.github.com/mb7068a/Final-Data-Project/master/Tables/ypv2.csv", sep="\t")
-    a<-yp%>%dplyr::filter(year==LE)
+    a<-yp%>%filter(year==LE)
     a<-a[-c(1,3,4)]
-    paste(a)
-    
-    
+    YPVI<-NPVI-a*ifelse(Party==1,-1,1)
+    CRPVI<-0.2382058*RPVI
+    CYPVI<-0.3457135*(YPVI)
+    CSS<-0.5815470
+    INT<--0.3182581
+    b<-((-INT*CBF-CBF*CYPVI-CBF*CRPVI)/(CSS+INT+CYPVI+CRPVI))
+    b<-format(b,big.mark = ",",nsmall=2)
+    b<-paste('$',b,sep = "")
+    paste("Candidate A should spend", b, "to be competative")
      })
+
   })
 }
 # Run the app ----
 shinyApp(ui = ui, server = server)
+
+

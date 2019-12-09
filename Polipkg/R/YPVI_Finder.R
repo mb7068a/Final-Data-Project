@@ -3,6 +3,7 @@
 #'returns the change in national performance
 #'
 #'Details
+#'@import dplyr
 #'
 #'@author Matthew Brown
 #'
@@ -10,13 +11,11 @@
 #'
 #'@return The movement in national congressional popular vote
 #'
-#'@examples
-#'
 #'@export
 #'
 
 YPVI_Finder <- function(x){
-  yp<-read.csv("https://raw.github.com/mb7068a/Final-Data-Project/master/Tables/ypv2.csv", sep="\t")
+  yp<<-yp()
   a<-yp%>%dplyr::filter(year==x)
   a<-a[-c(1,3,4)]
   return(a)

@@ -22,10 +22,6 @@ returns the change in national performance
 \details{
 Details
 }
-\examples{
-
-
-}
 \author{
 Matthew Brown
 }

@@ -3,7 +3,7 @@
 #'returns the change in national performance
 #'
 #'Details
-#'
+#'@import dplyr
 #'@author Matthew Brown
 #'
 #'@param x year of last election
@@ -13,8 +13,6 @@
 #'@param z Is the candidate a Republican
 #'
 #'@return The movement in national congressional popular vote
-#'
-#'@examples
 #'
 #'
 #'@export

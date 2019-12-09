@@ -1,3 +1,7 @@
+yp18 <- read.csv("Data/export copy 4.csv", skip=55)
+yp16 <- read.csv("Data/export-2 copy 3.csv", skip=55)
+yp14 <- read.csv("Data/export-3 copy 3.csv", skip=54)
+yp12 <- read.csv("Data/export-4 copy.csv", skip=55)
 yp10 <- read.csv("Data/export.csv", skip=54)
 yp08 <- read.csv("Data/export-2.csv", skip=54)
 yp06 <- read.csv("Data/export-3.csv", skip=56)
@@ -13,7 +17,10 @@ yp88 <- read.csv("Data/export copy 3.csv", skip=55)
 yp86 <- read.csv("Data/export-2 copy 2.csv", skip=55)
 yp84 <- read.csv("Data/export-3 copy 2.csv", skip=54)
 
-
+yp18<-yp18[ -c(1:14)]
+yp16<-yp16[ -c(1:14)]
+yp14<-yp14[ -c(1:14)]
+yp12<-yp12[ -c(1:14)]
 yp10<-yp10[ -c(1:14)]
 yp08<-yp08[ -c(1:14)]
 yp06<-yp06[ -c(1:14)]
@@ -29,8 +36,11 @@ yp88<-yp88[ -c(1:14)]
 yp86<-yp86[ -c(1:14)]
 yp84<-yp84[ -c(1:14)]
 
-yp10<-yp10%>%
-  mutate(year=2010)
+yp18<-yp18%>%mutate(year=2018)
+yp16<-yp16%>%mutate(year=2016)
+yp14<-yp14%>%mutate(year=2014)
+yp12<-yp12%>%mutate(year=2012)
+yp10<-yp10%>%mutate(year=2010)
 yp08<-yp08%>%
   mutate(year=2008)
 yp06<-yp06%>%
@@ -68,9 +78,14 @@ yp6<-full_join(yp5, yp02)
 yp7<-full_join(yp6, yp04)
 yp8<-full_join(yp7, yp06)
 yp9<-full_join(yp8, yp08)
-yp11<-full_join(yp88, yp9)
-yp12<-full_join(yp86, yp11)
-yp<-full_join(yp84, yp12)
+yp11<-full_join(yp9, yp10)
+yp13<-full_join(yp11, yp12)
+yp15<-full_join(yp13, yp14)
+yp17<-full_join(yp15, yp16)
+yp19<-full_join(yp17, yp18)
+yp20<-full_join(yp88, yp19)
+yp21<-full_join(yp86, yp20)
+yp<-full_join(yp84, yp21)
 ypp<-yp%>%
   mutate(year=year+6)%>%
   mutate(YPPVI=0.01*(DemVotesMajorPercentAll-RepVotesMajorPercentAll))
@@ -83,5 +98,5 @@ yp<-full_join(yp, ypp)
 yp<-yp%>%
 mutate(YPM=(YPVI-YPPVI))
 
-write.table(yp, "~/Documents/GitHub/Final-Data-Project/Tables/yp.csv", sep="\t")
+write.table(yp, "~/Documents/GitHub/Final-Data-Project/Tables/ypv2.csv", sep="\t")
 
