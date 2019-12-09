@@ -697,6 +697,11 @@ Senate7<-Senate7%>%
 #Update incumbency name
 names(Senate7)[9]<-"ICO"
 Senate7<<-Senate7
-write.table(Senate7, "~/Documents/GitHub/Final-Data-Project/Tables/Senate7-2.csv", sep="\t")
+Senate7<<-Senate7%>%
+  mutate(Inc=ifelse(ICO == "Incumbent",TRUE,FALSE))%>%
+  mutate(Open=ifelse(ICO == "Open",TRUE,FALSE))
+Senate7<<-Senate7%>%
+  mutate(AInc=ifelse(Inc == FALSE & Open ==FALSE,TRUE,FALSE))
+write.table(Senate7, "~/Documents/GitHub/Final-Data-Project/Tables/Senate7-3.csv", sep="\t")
 ```
 
