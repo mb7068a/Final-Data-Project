@@ -12,9 +12,6 @@ The movement in national congressional popular vote
 \description{
 returns the yearly performance table
 }
-\details{
-Details
-}
 \author{
 Matthew Brown
 }

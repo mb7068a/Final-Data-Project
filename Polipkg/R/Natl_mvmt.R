@@ -2,7 +2,6 @@
 #'
 #'returns the change in national performance
 #'
-#'Details
 #'@import dplyr
 #'@author Matthew Brown
 #'

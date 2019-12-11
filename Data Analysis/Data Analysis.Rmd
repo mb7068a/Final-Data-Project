@@ -1,0 +1,78 @@
+---
+title: "Data Analysis"
+author: "Matthew Brown"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(dplyr)
+Senate7<<-read.csv("https://raw.github.com/mb7068a/Final-Data-Project/master/Tables/Senate7-3.csv", sep="\t")
+```
+
+## Multiple Regression Model 1
+### Margin = Fundraising
+The initial multiple repression model compared the dependent variable (the margin of victory or loss in an election) to the dependent variable (the share of spending) with no control variables. This model demonstrates that there is a statistically significant relationship between the dependent variable and the independent variable.
+
+```{r Model 1}
+m1<<-lm(Senate7$RPVI ~ Senate7$share_of_spent)
+summary(m1)
+coef(m1)
+```
+\newpage
+## Multiple Regression Model 2
+### Margin = Fundraising + Previous Performance
+In order to reduce the residuals and produce a more predictive model, a second multiple repression model compared the dependent variable (the margin of victory or loss in an election) to the dependent variable (the share of spending) and a control variable (the margin received in the previous election). This model demonstrates that there is a statistically significant relationship between the dependent variable and both the independent variable and the control variable.
+```{r Model 2}
+m2<<-lm(Senate7$RPVI ~ Senate7$share_of_spent + Senate7$Previous_RPVI)
+summary(m2)
+coef(m2)
+```
+\newpage
+## Multiple Regression Model 3
+### Margin = Fundraising + Performance + Change in National Political Climate
+In order to reduce the residuals and produce a more predictive model, a third multiple repression model which was tested comparing the dependent variable to the independent variable and two control variables (the margin received in the previous election and the shift in the congressional popular vote between the previous election and the one being analyzed). This model demonstrated that there is statistical significance between the shift in national congressional popular vote and the margin of victory or loss. The median residual decreased by 17% and the maximum and minimum residuals both decreased in magnitude.
+
+```{r Model 3}
+m3<<-lm(Senate7$RPVI ~ Senate7$share_of_spent + Senate7$Previous_RPVI + Senate7$YPVI2)
+summary(m3)
+coef(m3)
+```
+
+\newpage
+## Multiple Regression Model 4
+### Margin = Fundraising + Performance + Change in National Political Climate + Incumbency
+In order to further reduce the residuals and produce a more predictive model, a fourth multiple repression model which was tested comparing the dependent variable to the independent variable and three control variables (the margin received in the previous election, the shift in the congressional popular vote between the previous election and the one being analyzed, and whether or not the candidate is an incumbent). This model demonstrated that there is no statistical significance between the incumbency of a candidate and the margin of victory or loss. 
+
+```{r Model 4}
+m4<<-lm(Senate7$RPVI ~ Senate7$share_of_spent + Senate7$Previous_RPVI +  Senate7$YPVI2 + Senate7$Inc)
+summary(m4)
+coef(m4)
+```
+\newpage
+## Multiple Regression Model 5
+### Margin = Fundraising + Performance + Change in National Political Climate + Incumbency of Opponent
+In order to further reduce the residuals and produce a more predictive model, a fifth multiple repression model which was tested comparing the dependent variable to the independent variable and three control variables (the margin received in the previous election, the shift in the congressional popular vote between the previous election and the one being analyzed, and whether or not the opponent candidate is an incumbent). This model demonstrated that there is no statistical significance between the incumbency of a candidate's opponent and the margin of victory or loss. 
+
+```{r Model 5}
+m5<<-lm(Senate7$RPVI ~ Senate7$share_of_spent + Senate7$Previous_RPVI +  Senate7$YPVI2 + Senate7$AInc)
+summary(m5)
+coef(m5)
+```
+\newpage
+# Interpreting the Results
+### Fundraising
+These results show that fundraising has a clear and statistically significant impact on the results of an election, even without controling for other important factors. This makes sense given the impact that spending can have on a campaign. Well-funded campaigns will often have more airtime, a stronger ground game, and better data, all factors which boost a candidate's performance.
+
+### Previous Performance
+One of the control variables which was found to be statistically significant was the performance of the last candidate of a particular party running in any given race. This makes sense given that this performance can serve as a metric for the partisanship of any given state. A Democrat running in Alabama is going to have a harder time being succesful than one running in Maryland. By accounting for previous performance, the model becomes more predictive.
+
+### National Political Climate
+Another control variable which was found to be statistically significant was the change in national political climate. This makes sense given the impact that an especially good or bad political climate for a particular party can have on a candidate of that party. By accounting for the national political climate, the model becomes more predictive.
+
+### Incumbency/Incumbency of Opponent
+Incumbency was likely not a statistically significant factor because fundraising was already a consideration. The strength of an incumbent is his or her ability to raise money, not his or her popularity with the voters. This is verified by modeling the relationship between incumbency and ability to raise money. The same is true of the incumbency of candidates' opponents.
+```{r Incumbency}
+mi<<-lm(Senate7$share_of_spent ~ Senate7$Inc)
+summary(mi)
+```

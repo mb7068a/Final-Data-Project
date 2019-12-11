@@ -1,14 +1,16 @@
 Package: Polipkg
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.1
+Title: Politics Package
+Version: 1.0.0
 Author: Matthew Brown
+Depends: R (>= 3.1.0)
 Maintainer: Matthew Brown <mb7068a@student.american.edu>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: This Package contains functions to make it easier to predict how a candidate will preform and use data to improve his or her performance. This is accomplished through  several functions and apps.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
-Depends:
-   dplyr
+Imports: 
+    shiny, 
+    dplyr, 
+    utils

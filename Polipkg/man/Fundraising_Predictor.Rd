@@ -2,15 +2,14 @@
 % Please edit documentation in R/Fundraising_Predictor.R
 \name{Fundraising_Predictor}
 \alias{Fundraising_Predictor}
-\title{yp
-Fundraising_Predictor}
+\title{Fundraising_Predictor}
 \usage{
-Fundraising_Predictor(x, y, z, b, c)
+Fundraising_Predictor(x, w, z, b, c)
 }
 \arguments{
 \item{x}{year of last election}
 
-\item{y}{The Political Party of candidate a (1 = Republican, 2 = Democrat)}
+\item{w}{The Political Party of candidate a (1 = Republican, 2 = Democrat)}
 
 \item{z}{Previous Margin}
 
@@ -22,10 +21,7 @@ Fundraising_Predictor(x, y, z, b, c)
 The amount of money a candidate should raise in order to be competative
 }
 \description{
-returns the yearly performance table
-}
-\details{
-Details
+Calculates the amount of money a candidate must raise in order to be competative.
 }
 \author{
 Matthew Brown

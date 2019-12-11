@@ -2,8 +2,6 @@
 #'
 #'returns the yearly performance table
 #'
-#'Details
-#'
 #'@import dplyr
 #'@import utils
 #'@author Matthew Brown

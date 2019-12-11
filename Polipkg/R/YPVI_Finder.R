@@ -2,7 +2,6 @@
 #'
 #'returns the change in national performance
 #'
-#'Details
 #'@import dplyr
 #'
 #'@author Matthew Brown
@@ -16,7 +15,7 @@
 
 YPVI_Finder <- function(x){
   yp<<-yp()
-  a<-yp%>%dplyr::filter(year==x)
+  a<-yp%>%dplyr::filter(.data$year==x)
   a<-a[-c(1,3,4)]
   return(a)
 }

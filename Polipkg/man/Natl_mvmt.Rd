@@ -19,9 +19,6 @@ The movement in national congressional popular vote
 \description{
 returns the change in national performance
 }
-\details{
-Details
-}
 \author{
 Matthew Brown
 }

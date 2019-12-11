@@ -1,19 +1,16 @@
 #'Fundraising_App
 #'
-#'returns the yearly performance table
+#'Runs the fundraising app
 #'
-#'Details
-#'@import dplyr
-#'@import utils
+#'@import shiny
+#'
+#'
 #'@author Matthew Brown
 #'
-#'@param x year of last election
-#'@param y The Political Party of candidate a (1 = Republican, 2 = Democrat)
-#'@param z Previous Margin
-#'@param b Predicted National Margin at time of election
-#'@param c The amount of money candidate b is expected to raise
-#'
-#'@return The amount of money a candidate should raise in order to be competative
-#'
+#'@return The fundraising app
 #'
 #'@export
+
+Fundraising_App<-function(){
+  shiny::runGitHub("Fundraising-Calculator-App","mb7068a")
+}
