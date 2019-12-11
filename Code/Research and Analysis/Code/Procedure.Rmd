@@ -12,12 +12,12 @@ require("tidyr")
 require("rio")
 require("tidyverse")
 require("janitor")
-knitr::opts_knit$set(root.dir = "~/Documents/GitHub/Final-Data-Project/Applied Data Science Project")
+knitr::opts_knit$set(root.dir = "~/Documents/GitHub/Final-Data-Project")
 ```
 ## Importing Data
 Data was collected from three sources: The Federal Election Commission, MIT Election Lab, and CQ Voting and Elections Center. The data from the MIT Election lab, which contained the results of all of the senate races from 1976 to 2018, was filtered down to include only regular general elections. Write in candidates were removed. The state_po column was renamed to match the FEC and unnecessary columns were removed.
 ```{r MIT Data Import, echo=TRUE, results='hide'}
-RS <<- read.csv("./Data/Results/1976-2018-senate.csv")
+RS <<- read.csv("./Code/Research and Analysis/Data/Results/1976-2018-senate.csv")
 RS <<- RS%>% filter(candidate!="") %>%
   filter(special=="FALSE") %>%
   filter(stage=="gen")%>%
@@ -32,17 +32,17 @@ RS <<- RS[,c(1,7,3,2,4,5,6)]
 FEC Data was imported for all elections from 1990 to 2010.
 ```{r FEC Data Wrangling 1, echo=TRUE, results='hide', warning=FALSE}
 # Import FEC Data
-F90S <<- readxl::read_xlsx("./Data/Fundraising/1990_Senate.xlsx", skip=3)
-F92S <<- readxl::read_xlsx("./Data/Fundraising/1992_Senate.xlsx", skip=3)
-F94S <<- readxl::read_xlsx("./Data/Fundraising/1994_Senate.xlsx", skip=3)
-F96S <<- readxl::read_xlsx("./Data/Fundraising/1996_Senate.xlsx", skip=3)
-F98S <<- readxl::read_xlsx("./Data/Fundraising/1998_Senate.xlsx", skip=3)
-F00S <<- readxl::read_xlsx("./Data/Fundraising/2000_Senate.xlsx", skip=3)
-F02S <<- readxl::read_xlsx("./Data/Fundraising/2002_Senate.xlsx", skip=3)
-F04S <<- readxl::read_xlsx("./Data/Fundraising/2004_Senate.xlsx", skip=3)
-F06S <<- readxl::read_xlsx("./Data/Fundraising/2006_Senate.xlsx", skip=3)
-F08S <<- readxl::read_xlsx("./Data/Fundraising/2008_Senate.xlsx", skip=3)
-F10S <<- readxl::read_xlsx("./Data/Fundraising/2010_Senate.xlsx", skip=3)
+F90S <<- readxl::read_xlsx("./Code/Research and Analysis/Data/Fundraising/1990_Senate.xlsx", skip=3)
+F92S <<- readxl::read_xlsx("./Code/Research and Analysis/Data/Fundraising/1992_Senate.xlsx", skip=3)
+F94S <<- readxl::read_xlsx("./Code/Research and Analysis/Data/Fundraising/1994_Senate.xlsx", skip=3)
+F96S <<- readxl::read_xlsx("./Code/Research and Analysis/Data/Fundraising/1996_Senate.xlsx", skip=3)
+F98S <<- readxl::read_xlsx("./Code/Research and Analysis/Data/Fundraising/1998_Senate.xlsx", skip=3)
+F00S <<- readxl::read_xlsx("./Code/Research and Analysis/Data/Fundraising/2000_Senate.xlsx", skip=3)
+F02S <<- readxl::read_xlsx("./Code/Research and Analysis/Data/Fundraising/2002_Senate.xlsx", skip=3)
+F04S <<- readxl::read_xlsx("./Code/Research and Analysis/Data/Fundraising/2004_Senate.xlsx", skip=3)
+F06S <<- readxl::read_xlsx("./Code/Research and Analysis/Data/Fundraising/2006_Senate.xlsx", skip=3)
+F08S <<- readxl::read_xlsx("./Code/Research and Analysis/Data/Fundraising/2008_Senate.xlsx", skip=3)
+F10S <<- readxl::read_xlsx("./Code/Research and Analysis/Data/Fundraising/2010_Senate.xlsx", skip=3)
 ```
 ## Data cleaning
 State names were replaced with abbreviations in order to more easily match this data with MIT data. 
@@ -580,38 +580,38 @@ Senate4<<-full_join(S4I,R10S)
 # Fundraising Wrangling ---------------------------------------------------
 Senate4 <<- Senate4%>%mutate(share_of_spent=spent/total_spent)
 #Export Data
-write.table(Senate4, "~/Documents/GitHub/Final-Data-Project/Tables/Senate.csv", sep="\t")
+write.table(Senate4, "./Tables/Senate.csv", sep="\t")
 ```
 The years were changed to not include the 2010. The rise of citizens united made it much more challenging to accurately depict fundraising based on what a candidate raises.
 ```{r removing the 2010 cycle, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
 library("tidyverse")
-Senate5<<- read.csv("~/Documents/GitHub/Final-Data-Project/Tables/Senate.csv", sep="\t")
+Senate5<<- read.csv("./Tables/Senate.csv", sep="\t")
 Senate5<<-Senate5%>%
   filter(year<=2008)
 #Export Data
-write.table(Senate5, "~/Documents/GitHub/Final-Data-Project/Tables/Senate.csv", sep="\t")
+write.table(Senate5, "./Tables/Senate.csv", sep="\t")
 ```
 
 The national congressional popular vote was imported from CQ election center. A new column was added to the table showing the national popular vote six years prior. This will make it easy to factor in the change in a national political environment over the course of a Senate term.
 ```{r National Congressional Popular Vote, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
-yp18 <- read.csv("./Data/export copy 4.csv", skip=55)
-yp16 <- read.csv("./Data/export-2 copy 3.csv", skip=55)
-yp14 <- read.csv("./Data/export-3 copy 3.csv", skip=54)
-yp12 <- read.csv("./Data/export-4 copy.csv", skip=55)
-yp10 <- read.csv("./Data/export.csv", skip=54)
-yp08 <- read.csv("./Data/export-2.csv", skip=54)
-yp06 <- read.csv("./Data/export-3.csv", skip=56)
-yp04 <- read.csv("./Data/export copy.csv", skip=55)
-yp02 <- read.csv("./Data/export-2 copy.csv", skip=55)
-yp00 <- read.csv("./Data/export-3 copy.csv", skip=54)
-yp98 <- read.csv("./Data/export-4.csv", skip=54)
-yp96 <- read.csv("./Data/export-5.csv", skip=55)
-yp94 <- read.csv("./Data/export-6.csv", skip=54)
-yp92 <- read.csv("./Data/export-7.csv", skip=55)
-yp90 <- read.csv("./Data/export-8.csv", skip=55)
-yp88 <- read.csv("./Data/export copy 3.csv", skip=55)
-yp86 <- read.csv("./Data/export-2 copy 2.csv", skip=55)
-yp84 <- read.csv("./Data/export-3 copy 2.csv", skip=54)
+yp18 <- read.csv("./Code/Research and Analysis/Data/export copy 4.csv", skip=55)
+yp16 <- read.csv("./Code/Research and Analysis/Data/export-2 copy 3.csv", skip=55)
+yp14 <- read.csv("./Code/Research and Analysis/Data/export-3 copy 3.csv", skip=54)
+yp12 <- read.csv("./Code/Research and Analysis/Data/export-4 copy.csv", skip=55)
+yp10 <- read.csv("./Code/Research and Analysis/Data/export.csv", skip=54)
+yp08 <- read.csv("./Code/Research and Analysis/Data/export-2.csv", skip=54)
+yp06 <- read.csv("./Code/Research and Analysis/Data/export-3.csv", skip=56)
+yp04 <- read.csv("./Code/Research and Analysis/Data/export copy.csv", skip=55)
+yp02 <- read.csv("./Code/Research and Analysis/Data/export-2 copy.csv", skip=55)
+yp00 <- read.csv("./Code/Research and Analysis/Data/export-3 copy.csv", skip=54)
+yp98 <- read.csv("./Code/Research and Analysis/Data/export-4.csv", skip=54)
+yp96 <- read.csv("./Code/Research and Analysis/Data/export-5.csv", skip=55)
+yp94 <- read.csv("./Code/Research and Analysis/Data/export-6.csv", skip=54)
+yp92 <- read.csv("./Code/Research and Analysis/Data/export-7.csv", skip=55)
+yp90 <- read.csv("./Code/Research and Analysis/Data/export-8.csv", skip=55)
+yp88 <- read.csv("./Code/Research and Analysis/Data/export copy 3.csv", skip=55)
+yp86 <- read.csv("./Code/Research and Analysis/Data/export-2 copy 2.csv", skip=55)
+yp84 <- read.csv("./Code/Research and Analysis/Data/export-3 copy 2.csv", skip=54)
 #Remove un-necessary columns
 yp18<-yp18[ -c(1:14)]
 yp16<-yp16[ -c(1:14)]
@@ -694,7 +694,7 @@ yp<<-full_join(yp, ypp)
 yp<<-yp%>%
 mutate(YPM=(YPVI-YPPVI))
 
-write.table(yp, "~/Documents/GitHub/Final-Data-Project/Tables/ypv2.csv", sep="\t")
+write.table(yp, "./Tables/ypvi.csv", sep="\t")
 #The data is then joined to the master table
 Senate7<-full_join(Senate4,yp)
 Senate7<-Senate7%>%
@@ -707,6 +707,6 @@ Senate7<<-Senate7%>%
   mutate(Open=ifelse(ICO == "Open",TRUE,FALSE))
 Senate7<<-Senate7%>%
   mutate(AInc=ifelse(Inc == FALSE & Open ==FALSE,TRUE,FALSE))
-write.table(Senate7, "~/Documents/GitHub/Final-Data-Project/Tables/Senate7-3.csv", sep="\t")
+write.table(Senate7, "./Tables/Senate.csv", sep="\t")
 ```
 
